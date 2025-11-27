@@ -1,9 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-interface SpotlightCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactNode;
-  className?: string;
-}
+interface SpotlightCardProps extends React.ComponentPropsWithoutRef<'div'> {}
 
 export const SpotlightCard = ({ children, className = "", onClick, ...props }: SpotlightCardProps) => {
   const divRef = useRef<HTMLDivElement>(null);
