@@ -100,13 +100,12 @@ export const GalleryHall: React.FC = () => {
       <div className="relative">
         <div 
             ref={containerRef}
-            data-lenis-prevent="true"
             onScroll={handleScroll}
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
-            className={`flex gap-6 overflow-x-auto px-6 md:px-20 pb-20 no-scrollbar touch-pan-x ${
+            className={`flex gap-6 overflow-x-auto px-6 md:px-20 pb-20 no-scrollbar ${
                 isDragging ? 'cursor-grabbing snap-none' : 'cursor-grab snap-x snap-mandatory'
             }`}
             style={{ scrollBehavior: isDragging ? 'auto' : 'smooth' }}

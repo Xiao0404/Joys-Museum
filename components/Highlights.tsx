@@ -48,19 +48,22 @@ export const Highlights: React.FC = () => {
     <section className="w-full py-24 px-6 md:px-20 bg-background relative z-20">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {features.map((feature) => (
-            <SpotlightCard key={feature.id} className="h-full min-h-[250px] flex flex-col justify-center group">
-              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${feature.iconBgClass}`}>
-                <feature.icon className="w-7 h-7" />
-              </div>
-              <h3 className={`text-2xl font-semibold text-white mb-3 tracking-tight transition-colors duration-300 ${feature.colorClass}`}>
-                {feature.title}
-              </h3>
-              <p className="text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors">
-                {feature.description}
-              </p>
-            </SpotlightCard>
-          ))}
+          {features.map((feature) => {
+            const Icon = feature.icon;
+            return (
+              <SpotlightCard key={feature.id} className="h-full min-h-[250px] flex flex-col justify-center group">
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${feature.iconBgClass}`}>
+                  <Icon className="w-7 h-7" />
+                </div>
+                <h3 className={`text-2xl font-semibold text-white mb-3 tracking-tight transition-colors duration-300 ${feature.colorClass}`}>
+                  {feature.title}
+                </h3>
+                <p className="text-zinc-400 leading-relaxed group-hover:text-zinc-300 transition-colors">
+                  {feature.description}
+                </p>
+              </SpotlightCard>
+            );
+          })}
         </div>
       </div>
     </section>
