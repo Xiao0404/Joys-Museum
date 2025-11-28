@@ -422,7 +422,7 @@ export const NinjaGame: React.FC<NinjaGameProps> = ({ onExit }) => {
       ctx.fillStyle = '#fff';
       ctx.fillRect(-5 * ps, -80 * ps, 20 * ps, 5 * ps);
 
-      // Sword (Fixed to Back/Torso) - Replacing the jittery scarf
+      // Sword (Fixed to Back/Torso)
       if (state.playerAction !== 'hit') {
         ctx.fillStyle = '#e2e8f0'; // Silver/White
         ctx.beginPath();
@@ -515,7 +515,7 @@ export const NinjaGame: React.FC<NinjaGameProps> = ({ onExit }) => {
                     <p className="text-zinc-400 mb-8 max-w-md mx-auto leading-relaxed">
                         点击 <span className="text-red-400 font-bold">红色</span> 按钮 击杀敌人.<br/>
                         点击 <span className="text-cyan-400 font-bold">蓝色</span> 按钮 跳跃.<br/>
-                        <span className="text-white text-xs opacity-50 mt-2 block">(Game waits for your input)</span>
+                        <span className="text-white text-xs opacity-50 mt-2 block">(Tap buttons to move)</span>
                     </p>
                     <button 
                         onClick={() => setGameState('playing')}
@@ -555,22 +555,25 @@ export const NinjaGame: React.FC<NinjaGameProps> = ({ onExit }) => {
       {/* Touch Controls Layer - ONLY ACTIVE WHEN PLAYING */}
       {gameState === 'playing' && (
           <div className="absolute inset-0 z-40 flex">
-            <div 
-                className="w-1/2 h-full active:bg-red-500/10 transition-colors touch-none flex items-end justify-center pb-20"
-                onTouchStart={(e) => { e.preventDefault(); handleInput('attack'); }}
-                onClick={(e) => { e.preventDefault(); handleInput('attack'); }}
-            >
-                <div className="border-2 border-red-500/30 text-red-500/50 rounded-full w-24 h-24 flex items-center justify-center animate-pulse">
-                    <Zap className="w-8 h-8" />
+            {/* Left Side Container - Layout Only */}
+            <div className="w-1/2 h-full flex items-end justify-center pb-20 pointer-events-none">
+                {/* Attack Button - Red - Pointer events enabled */}
+                <div 
+                    className="pointer-events-auto cursor-pointer border-2 border-red-500/50 bg-red-500/20 active:bg-red-500/40 text-red-100 rounded-full w-24 h-24 flex items-center justify-center transition-transform active:scale-95 touch-none"
+                    onPointerDown={(e) => { e.preventDefault(); handleInput('attack'); }}
+                >
+                    <Zap className="w-10 h-10 fill-current" />
                 </div>
             </div>
-            <div 
-                className="w-1/2 h-full active:bg-cyan-500/10 transition-colors touch-none flex items-end justify-center pb-20"
-                onTouchStart={(e) => { e.preventDefault(); handleInput('jump'); }}
-                onClick={(e) => { e.preventDefault(); handleInput('jump'); }}
-            >
-                 <div className="border-2 border-cyan-500/30 text-cyan-500/50 rounded-full w-24 h-24 flex items-center justify-center animate-pulse">
-                    <ArrowLeft className="w-8 h-8 rotate-90" />
+            
+            {/* Right Side Container - Layout Only */}
+            <div className="w-1/2 h-full flex items-end justify-center pb-20 pointer-events-none">
+                 {/* Jump Button - Blue - Pointer events enabled */}
+                 <div 
+                    className="pointer-events-auto cursor-pointer border-2 border-cyan-500/50 bg-cyan-500/20 active:bg-cyan-500/40 text-cyan-100 rounded-full w-24 h-24 flex items-center justify-center transition-transform active:scale-95 touch-none"
+                    onPointerDown={(e) => { e.preventDefault(); handleInput('jump'); }}
+                >
+                    <ArrowLeft className="w-10 h-10 rotate-90 fill-current" />
                 </div>
             </div>
           </div>
