@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
 
 export interface SpotlightCardProps extends React.ComponentPropsWithoutRef<'div'> {
-  children?: React.ReactNode;
+  // children is already included in ComponentPropsWithoutRef<'div'>
 }
 
-export const SpotlightCard = ({ 
+export const SpotlightCard: React.FC<SpotlightCardProps> = ({ 
   children, 
   className = "", 
   onClick, 
@@ -14,7 +14,7 @@ export const SpotlightCard = ({
   onMouseEnter,
   onMouseLeave,
   ...props 
-}: SpotlightCardProps) => {
+}) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
