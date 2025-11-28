@@ -1,8 +1,20 @@
 import React, { useRef, useState } from 'react';
 
-interface SpotlightCardProps extends React.ComponentPropsWithoutRef<'div'> {}
+export interface SpotlightCardProps extends React.ComponentPropsWithoutRef<'div'> {
+  children?: React.ReactNode;
+}
 
-export const SpotlightCard = ({ children, className = "", onClick, ...props }: SpotlightCardProps) => {
+export const SpotlightCard: React.FC<SpotlightCardProps> = ({ 
+  children, 
+  className = "", 
+  onClick, 
+  onMouseMove,
+  onFocus,
+  onBlur,
+  onMouseEnter,
+  onMouseLeave,
+  ...props 
+}) => {
   const divRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [opacity, setOpacity] = useState(0);
@@ -14,22 +26,27 @@ export const SpotlightCard = ({ children, className = "", onClick, ...props }: S
     const rect = div.getBoundingClientRect();
 
     setPosition({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    onMouseMove?.(e);
   };
 
-  const handleFocus = () => {
+  const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
     setOpacity(1);
+    onFocus?.(e);
   };
 
-  const handleBlur = () => {
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
     setOpacity(0);
+    onBlur?.(e);
   };
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     setOpacity(1);
+    onMouseEnter?.(e);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     setOpacity(0);
+    onMouseLeave?.(e);
   };
 
   return (

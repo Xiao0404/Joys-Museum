@@ -7,6 +7,7 @@ export interface Game {
   image: string;
   description: string;
   tags: string[];
+  internalId?: string;
 }
 
 export interface Feature {

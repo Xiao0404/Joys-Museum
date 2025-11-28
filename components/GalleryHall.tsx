@@ -1,16 +1,21 @@
 import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Hand } from 'lucide-react';
+import { ArrowRight, Hand, Play } from 'lucide-react';
 import { Game } from '../types';
+
+interface GalleryHallProps {
+  onPlayGame: (gameId: string) => void;
+}
 
 const games: Game[] = [
   {
     id: '1',
-    title: 'Neon Drift',
-    category: 'Racing',
-    image: 'https://picsum.photos/600/900?random=1',
-    description: '虚空中的赛博漂移',
-    tags: ['速度', '反应'],
+    internalId: 'ninja',
+    title: 'Ninja Must Die',
+    category: 'Action',
+    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop', // Retro synthwave aesthetic
+    description: 'Neon. Speed. Survival.',
+    tags: ['REFLEX', 'ENDLESS', 'NEON'],
   },
   {
     id: '2',
@@ -46,7 +51,7 @@ const games: Game[] = [
   },
 ];
 
-export const GalleryHall: React.FC = () => {
+export const GalleryHall: React.FC<GalleryHallProps> = ({ onPlayGame }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showHint, setShowHint] = useState(true);
   const [isDragging, setIsDragging] = useState(false);
@@ -116,8 +121,15 @@ export const GalleryHall: React.FC = () => {
                 className="relative flex-shrink-0 w-[85vw] md:w-[400px] h-[600px] snap-center group select-none"
                 whileHover={{ y: isDragging ? 0 : -10 }}
                 transition={{ type: "spring", stiffness: 300 }}
+                onClick={() => {
+                    if (!isDragging && game.internalId) {
+                        onPlayGame(game.internalId);
+                    }
+                }}
             >
-                <div className="absolute inset-0 rounded-xl overflow-hidden bg-zinc-900 border border-white/10">
+                <div className={`absolute inset-0 rounded-xl overflow-hidden bg-zinc-900 border transition-colors duration-300 ${
+                    game.internalId ? 'border-cyan-500/50 group-hover:border-cyan-400' : 'border-white/10'
+                }`}>
                 <img 
                     src={game.image} 
                     alt={game.title} 
@@ -126,15 +138,30 @@ export const GalleryHall: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                 
-                <div className="absolute bottom-0 left-0 p-8 w-full">
+                {/* Play Button Overlay for Playable Games */}
+                {game.internalId && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20 backdrop-blur-[2px]">
+                        <div className="w-20 h-20 rounded-full bg-white text-black flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300 shadow-lg shadow-cyan-500/50">
+                            <Play className="ml-1 w-8 h-8 fill-black" />
+                        </div>
+                    </div>
+                )}
+
+                <div className="absolute bottom-0 left-0 p-8 w-full pointer-events-none">
                     <div className="flex gap-2 mb-3">
                     {game.tags.map(tag => (
-                        <span key={tag} className="text-[10px] font-mono border border-white/20 text-white/70 px-2 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm">
+                        <span key={tag} className={`text-[10px] font-mono border px-2 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm ${
+                            game.internalId 
+                                ? 'border-cyan-500/50 text-cyan-300 bg-cyan-950/30' 
+                                : 'border-white/20 text-white/70'
+                        }`}>
                         {tag}
                         </span>
                     ))}
                     </div>
-                    <h3 className="text-3xl font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">{game.title}</h3>
+                    <h3 className={`text-3xl font-bold mb-1 transition-colors ${
+                        game.internalId ? 'text-white group-hover:text-cyan-400' : 'text-white group-hover:text-purple-400'
+                    }`}>{game.title}</h3>
                     <p className="text-zinc-400 text-sm">{game.description}</p>
                 </div>
                 </div>
